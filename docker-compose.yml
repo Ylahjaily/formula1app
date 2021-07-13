@@ -21,7 +21,7 @@ services:
     volumes:
       - ./docker/mysql:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: medicalApp
+      MYSQL_DATABASE: formulaone
       MYSQL_ROOT_PASSWORD: EcIihAp1gQ
 
   phpmyadmin:
