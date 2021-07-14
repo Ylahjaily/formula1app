@@ -13,8 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class DriverController extends AbstractController
 {
     /**
-     * @Route("/drivers")
-     */
+ * @Route("/drivers", name="list_all_drivers",  methods={"GET"})
+ */
     function getAllDriver() {
         $httpClient = HttpClient::create();
         $response = $httpClient->request('GET', 'http://ergast.com/api/f1/drivers.json?limit=853');
@@ -24,11 +24,11 @@ class DriverController extends AbstractController
         if (200 === $statusCode) {
             $content = $response->getContent();
             $array = json_decode($content, true);
-            $drivers = $array['MRData']['DriverTable']['Drivers'];
+            $data = $array['MRData']['DriverTable']['Drivers'];
         }
 
         return $this->render('/drivers/alldrivers.html.twig',[
-            'drivers' => $drivers
+            'drivers' => $data
         ]);
     }
 }
