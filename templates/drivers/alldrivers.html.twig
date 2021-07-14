@@ -1,0 +1,9 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Index{% endblock %}
+
+{% block body %}
+    {% for driver in drivers %}
+        <p>{{ driver.givenName }} {{ driver.familyName }} </p>
+    {% endfor %}
+{% endblock %}
