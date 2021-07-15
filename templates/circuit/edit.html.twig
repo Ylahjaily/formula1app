@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Circuit{% endblock %}
+
+{% block body %}
+    <h1>Edit Circuit</h1>
+
+    {{ include('circuit/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('circuit_index') }}">back to list</a>
+
+    {{ include('circuit/_delete_form.html.twig') }}
+{% endblock %}

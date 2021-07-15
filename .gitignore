@@ -1,6 +1,7 @@
 .gitignore
-
+/idea
 ###> symfony/framework-bundle ###
+.idea
 .env
 .env.test
 /.env.local
