@@ -1,5 +1,5 @@
 .gitignore
-
+/idea
 ###> symfony/framework-bundle ###
 .idea
 .env

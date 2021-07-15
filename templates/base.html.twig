@@ -11,7 +11,9 @@
 
     </head>
     <body>
-        {% block body %}
+    {% include('./partials/navbar.html.twig') %}
+
+    {% block body %}
         {% endblock %}
 
         {% block javascripts %}
