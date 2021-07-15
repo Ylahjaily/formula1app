@@ -6,33 +6,13 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Routing\Annotation\Route;
-
-class DriverController extends AbstractController
+class ConstructorController extends AbstractController
 {
     /**
- * @Route("/drivers", name="list_all_drivers",  methods={"GET"})
- */
-    function getAllDriver() {
-        $httpClient = HttpClient::create();
-        $response = $httpClient->request('GET', 'http://ergast.com/api/f1/drivers.json?limit=853');
-
-        $statusCode = $response->getStatusCode();
-
-        if (200 === $statusCode) {
-            $content = $response->getContent();
-            $array = json_decode($content, true);
-            $data = $array['MRData']['DriverTable']['Drivers'];
-        }
-
-        return $this->render('/drivers/alldrivers.html.twig',[
-            'drivers' => $data
-        ]);
-    }
-
-    /**
-     * @Route("/drivers/most/winning/{season}", name="drivers_most_winning_race_in_season",  methods={"GET"})
+     * @Route("/constructors/most/winning/{season}", name="constructors_most_winning_race_in_season",  methods={"GET"})
      */
-    function getDriverWhitMostWinnigRaceBySeason($season="2021") {
+    function getConstructorWhitMostWinnigRaceBySeason ($season= "2020") {
+
         $httpClient = HttpClient::create();
         $url = "http://ergast.com/api/f1/".$season."/results.json?limit=1000";
         $response = $httpClient->request('GET', $url);
@@ -42,7 +22,6 @@ class DriverController extends AbstractController
             $content = $response->getContent();
             $array = json_decode($content, true);
             $data = $array['MRData']['RaceTable']['Races'];
-
         }
 
         $results_array = [];
@@ -54,34 +33,41 @@ class DriverController extends AbstractController
 
                 if ($result['position'] === "1") {
 
-                    $results_array[] = $results[$key]['Driver'];
+                    $results_array[] = $results[$key]['Constructor'];
                 }
             }
         }
+
+        dump($results_array);
+
 
         $results_array2 = [];
 
         foreach ($results_array as $key => $result) {
             $count = 0;
-            $driver_code = $result['code'];
-            $driver_name =  $result['givenName'].' '.$result['familyName'];
+            $constructor_id= $result['constructorId'];
+            $constructor_name =  $result['name'];
 
             foreach ($results_array as $result2) {
-                if($driver_code === $result2['code']) {
+                if($constructor_id === $result2['constructorId']) {
                     $count = $count +1;
                 }
             }
-            $results_array2[] = [$driver_name, $count];
+            $results_array2[] = [$constructor_name, $count];
         }
+
+        dump($results_array2);
 
         $unique_value =  array_unique($results_array2, SORT_REGULAR);
 
         $nbWins = array_column($unique_value, '1', '0');
         $topWins = array_multisort($nbWins, SORT_DESC, $unique_value);
 
-        return $this->render('/drivers/mostWinningRace.html.twig', [
+        dump($nbWins);
+
+        return $this->render('/constructors/mostWinningRace.html.twig', [
             'season' => $season,
-            'drivers' => $nbWins
+            'constructors' => $nbWins
         ]);
     }
 }
