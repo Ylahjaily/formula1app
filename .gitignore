@@ -2,7 +2,6 @@
 /idea
 ###> symfony/framework-bundle ###
 .idea
-.env
 .env.test
 /.env.local
 /.env.local.php
@@ -12,7 +11,6 @@
 /var/
 /vendor/
 /docker/
-docker-compose.yml
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
