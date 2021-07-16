@@ -8,28 +8,21 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Round</th>
                 <th>Season</th>
                 <th>Type</th>
                 <th>Points</th>
                 <th>Wins</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for title in titles %}
             <tr>
-                <td>{{ title.id }}</td>
                 <td>{{ title.round }}</td>
                 <td>{{ title.season }}</td>
                 <td>{{ title.type }}</td>
                 <td>{{ title.points }}</td>
                 <td>{{ title.wins }}</td>
-                <td>
-                    <a href="{{ path('title_show', {'id': title.id}) }}">show</a>
-                    <a href="{{ path('title_edit', {'id': title.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>
@@ -39,5 +32,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('title_new') }}">Create new</a>
 {% endblock %}
