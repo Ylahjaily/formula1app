@@ -32,6 +32,11 @@ class Circuit
      */
     private $country;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $externalId;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class Circuit
     public function setCountry(?string $country): self
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getExternalId(): ?string
+    {
+        return $this->externalId;
+    }
+
+    public function setExternalId(string $externalId): self
+    {
+        $this->externalId = $externalId;
 
         return $this;
     }
