@@ -1,9 +1,11 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Index{% endblock %}
+{% block title %}Drivers index{% endblock %}
 
 {% block body %}
-    {% for driver in drivers %}
-        <p>{{ driver.givenName }} {{ driver.familyName }} </p>
-    {% endfor %}
+    <div class="container-fluid" style="margin-top: 1%">
+        {% for driver in drivers %}
+            <p>{{ driver.givenName }} {{ driver.familyName }} </p>
+        {% endfor %}
+    </div>
 {% endblock %}

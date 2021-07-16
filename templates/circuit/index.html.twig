@@ -3,29 +3,30 @@
 {% block title %}Circuit index{% endblock %}
 
 {% block body %}
-    <h1>Les circuits</h1>
+    <div class="container-fluid" style="margin-top: 1%">
+        <h1>Les circuits</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Emplacement</th>
-                <th>Pays</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for circuit in circuits %}
-            <tr>
-                <td>{{ circuit.name }}</td>
-                <td>{{ circuit.locality }}</td>
-                <td>{{ circuit.country }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Emplacement</th>
+                    <th>Pays</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for circuit in circuits %}
+                <tr>
+                    <td>{{ circuit.name }}</td>
+                    <td>{{ circuit.locality }}</td>
+                    <td>{{ circuit.country }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

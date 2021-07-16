@@ -19,21 +19,23 @@
     <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2020"}) }}">Saison 2020</a>
     <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2021"}) }}">Saison 2021</a>
 
-    <h3>Drivers with most victory in {{ season }}</h3>
+    <div class="container-fluid" style="margin-top: 1%">
+        <h3>Drivers with most victory in {{ season }}</h3>
 
-    <script>
-        var drivers = [];
-        var wins = [];
-    </script>
-    {% for driverName, nbWins in drivers %}
-        <p>{{ driverName }} wins {{ nbWins }} races </p>
         <script>
-            drivers.push("{{ driverName }}");
-            wins.push("{{ nbWins }}");
+            var drivers = [];
+            var wins = [];
         </script>
-    {% endfor %}
+        {% for driverName, nbWins in drivers %}
+            <p>{{ driverName }} wins {{ nbWins }} races </p>
+            <script>
+                drivers.push("{{ driverName }}");
+                wins.push("{{ nbWins }}");
+            </script>
+        {% endfor %}
 
-    <canvas id="pieChart"></canvas>
+        <canvas id="pieChart" style="max-width: 1000px; max-height: 500px"></canvas>
+    </div>
 
     <script>
         var ctxP = document.getElementById("pieChart").getContext('2d');
