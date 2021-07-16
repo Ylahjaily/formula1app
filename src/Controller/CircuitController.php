@@ -28,7 +28,7 @@ class CircuitController extends AbstractController
             $circuits = $data['MRData']['CircuitTable']['Circuits'];
 
            foreach ($circuits as $circuit) {
-               $this->newFromAPI($circuit);
+               $this->newFromAPI($circuit, $circuitRepository);
            }
         }
 
@@ -37,17 +37,21 @@ class CircuitController extends AbstractController
         ]);
     }
 
-    public function newFromAPI(array $object)
+    public function newFromAPI(array $object, CircuitRepository $circuitRepository)
     {
         $circuit = new Circuit();
 
         $circuit->setName($object['circuitName']);
         $circuit->setCountry($object['Location']['country']);
         $circuit->setLocality($object['Location']['locality']);
+        $circuit->setExternalId($object['circuitId']);
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($circuit);
-        $entityManager->flush();
+        $result = $circuitRepository->findOneBy(['externalId' => $circuit->getExternalId()]);
+        if (!$result) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($circuit);
+            $entityManager->flush();
+        }
     }
 
     /*

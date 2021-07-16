@@ -21,7 +21,37 @@
     <a href="{{ path('constructors_most_winning_race_in_season', {'season': "2021"}) }}">Saison 2021</a>
 
     <h3>Constructors with most victory in {{ season }} </h3>
+    <script>
+        var constructors = [];
+        var wins = [];
+    </script>
     {% for constructorName, nbWins in constructors %}
         <p>{{constructorName }} wins {{ nbWins }} races </p>
+        <script>
+            constructors.push("{{ constructorName }}");
+            wins.push("{{ nbWins }}");
+        </script>
     {% endfor %}
+
+    <canvas id="pieChart"></canvas>
+
+    <script>
+        var ctxP = document.getElementById("pieChart").getContext('2d');
+        var myPieChart = new Chart(ctxP, {
+            type: 'pie',
+            data: {
+                labels: constructors,
+                datasets: [{
+                    data: wins,
+                    backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+                    hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    </script>
+
 {% endblock %}
+
