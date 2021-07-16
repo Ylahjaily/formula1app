@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Constructor;
 use App\Entity\Title;
 use App\Form\TitleType;
+use App\Repository\ConstructorRepository;
 use App\Repository\TitleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
@@ -11,25 +13,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/title")
- */
 class TitleController extends AbstractController
+
 {
     /**
      * @Route("/standings-constructor", name="constructors_standings", methods={"GET"})
      */
-    public function index(TitleRepository $titleRepository): Response
+    public function index(TitleRepository $titleRepository, ConstructorRepository $constructorRepository): Response
     {
         $httpClient = HttpClient::create();
         $response = $httpClient->request('GET', 'http://ergast.com/api/f1/constructorStandings/1.json');
 
         if (200 == $response->getStatusCode()) {
             $data = json_decode($response->getContent(), true);
-            $titles = $data['MRData']['StandingsTable']['StandingsList'];
+            $titles = $data['MRData']['StandingsTable']['StandingsLists'];
 
             foreach ($titles as $title) {
-                $this->newFromAPI($titles, $titleRepository);
+                $this->newFromAPI($title, $titleRepository, $constructorRepository);
             }
         }
 
@@ -38,24 +38,28 @@ class TitleController extends AbstractController
         ]);
     }
 
-    public function newFromAPI(array $object, TitleRepository $titleRepository)
+    public function newFromAPI(array $object, TitleRepository $titleRepository, ConstructorRepository $constructorRepository)
     {
         $title = new Title();
 
         $title->setSeason($object['season']);
-        $title->setRound($object['round']);
         $title->setType("CONSTRUCTOR");
-        $title->setPoints($object['points']);
-        $title->setWins($object['wins']);
 
-        // Here relation with constructor externalId
-        
-
-        $result = $titleRepository->findOneBy(['externalId' => $title->getExternalId()]);
+        $result = $titleRepository->findOneBy(['type' => $title->getType(), 'season' => $title->getSeason()]);
         if (!$result) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($title);
-            $entityManager->flush();
+            $title->setRound($object['round']);
+            $title->setPoints($object['ConstructorStandings'][0]['points']);
+            $title->setWins($object['ConstructorStandings'][0]['wins']);
+
+            // Here relation with constructor externalId
+            $constructor = $constructorRepository->findOneBy(['externalId' => $object['ConstructorStandings'][0]['Constructor']['constructorId']]);
+            if ($constructor) { //TODO else create new constructor
+                $title->setConstructor($constructor);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($title);
+                $entityManager->flush();
+            }
         }
     }
 }
