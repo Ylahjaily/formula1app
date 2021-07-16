@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Index{% endblock %}
+
+{% block body %}
+    <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2010"}) }}">Saison 2010</a>
+    <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2011"}) }}">Saison 2011</a>
+    <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2012"}) }}">Saison 2012</a>
+
+    <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2013"}) }}">Saison 2013</a>
+    <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2014"}) }}">Saison 2014</a>
+    <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2015"}) }}">Saison 2015</a>
+
+    <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2016"}) }}">Saison 2016</a>
+    <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2017"}) }}">Saison 2017</a>
+    <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2018"}) }}">Saison 2018</a>
+
+    <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2019"}) }}">Saison 2019</a>
+    <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2020"}) }}">Saison 2020</a>
+    <a href="{{ path('drivers_most_winning_race_in_season', {'season': "2021"}) }}">Saison 2021</a>
+
+    <h3>Drivers with most victory in {{ season }}</h3>
+
+    {% for driverName, nbWins in drivers %}
+        <p>{{ driverName }} wins {{ nbWins }} races </p>
+    {% endfor %}
+
+{% endblock %}
