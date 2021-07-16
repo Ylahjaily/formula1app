@@ -18,3 +18,5 @@
   -> php bin/console d:s:u --force 
   
 - yarn run encore dev --watch 
+
+=> Run on localhost:88
