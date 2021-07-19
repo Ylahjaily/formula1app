@@ -17,12 +17,12 @@ class TitleController extends AbstractController
 
 {
     /**
-     * @Route("/standings-constructor", name="constructors_standings", methods={"GET"})
+     * @Route("/constructors-titles", name="constructors_titles", methods={"GET"})
      */
     public function index(TitleRepository $titleRepository, ConstructorRepository $constructorRepository): Response
     {
         $httpClient = HttpClient::create();
-        $response = $httpClient->request('GET', 'http://ergast.com/api/f1/constructorStandings/1.json');
+        $response = $httpClient->request('GET', 'http://ergast.com/api/f1/constructorStandings/1.json?limit=100');
 
         if (200 == $response->getStatusCode()) {
             $data = json_decode($response->getContent(), true);
@@ -34,7 +34,7 @@ class TitleController extends AbstractController
         }
 
         return $this->render('title/index.html.twig', [
-            'titles' => $titleRepository->findAll(),
+            'titles' => $titleRepository->findBy(['type' => 'CONSTRUCTOR'], ['season' => 'DESC']),
         ]);
     }
 
@@ -59,7 +59,19 @@ class TitleController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($title);
                 $entityManager->flush();
+            } else {
+                dump($object['ConstructorStandings'][0]['Constructor']['constructorId']);
             }
         }
+    }
+
+    /**
+     * @Route("/constructors-standings", name="constructors_standings", methods={"GET"})
+     */
+    public function constructorsByTitles(TitleRepository $titleRepository): Response
+    {
+        return $this->render('title/constructorsByTitles.html.twig', [
+            'constructors' => $titleRepository->countConstructorsTitles()
+        ]);
     }
 }
