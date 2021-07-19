@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Title index{% endblock %}
+
+{% block body %}
+    <h1>Constuctors by titles</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Constructors</th>
+                <th>Titles</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for constructor in constructors %}
+            <tr>
+                <td>{{ constructor.name }}</td>
+                <td>{{ constructor.titles }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -17,7 +17,7 @@ class ConstructorController extends AbstractController
     public function index(ConstructorRepository $constructorRepository): Response
     {
         $httpClient = HttpClient::create();
-        $response = $httpClient->request('GET', 'http://ergast.com/api/f1/constructors.json');
+        $response = $httpClient->request('GET', 'http://ergast.com/api/f1/constructors.json?limit=300');
 
         if (200 == $response->getStatusCode()) {
             $data = json_decode($response->getContent(), true);
