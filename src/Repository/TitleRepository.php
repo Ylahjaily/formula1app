@@ -20,21 +20,17 @@ class TitleRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Title[] Returns an array of Title objects
+    //  * @return Object Returns an object of constructors names with theirs number of titles
     //  */
-    /*
-    public function findByExampleField($value)
+    public function countConstructorsTitles()
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $rawSql = "SELECT `name`, COUNT(*) as 'titles' FROM `title`, `constructor` WHERE `constructor_id` = constructor.id GROUP BY `name` ORDER BY titles DESC";
+
+        $statement = $this->getEntityManager()->getConnection()->prepare($rawSql);
+        $statement->execute([]);
+
+        return $statement->fetchAll();
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Title

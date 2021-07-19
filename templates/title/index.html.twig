@@ -3,26 +3,26 @@
 {% block title %}Title index{% endblock %}
 
 {% block body %}
-    <h1>Title index</h1>
+    <h1>Constuctor titles</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Round</th>
                 <th>Season</th>
-                <th>Type</th>
+                <th>Constructor</th>
                 <th>Points</th>
                 <th>Wins</th>
+                <th>Round</th>
             </tr>
         </thead>
         <tbody>
         {% for title in titles %}
             <tr>
-                <td>{{ title.round }}</td>
                 <td>{{ title.season }}</td>
-                <td>{{ title.type }}</td>
+                <td>{{ title.constructor.name }}</td>
                 <td>{{ title.points }}</td>
                 <td>{{ title.wins }}</td>
+                <td>{{ title.round }}</td>
             </tr>
         {% else %}
             <tr>
